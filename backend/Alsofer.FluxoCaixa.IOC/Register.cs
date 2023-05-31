@@ -17,14 +17,14 @@ namespace Phibra.Prova.IOC
 
             //Services
             services.AddScoped<ITipoMovimentacaoServices, TipoMovimentacaoServices>();
-
+            services.AddScoped<IMovimentacaoServices, MovimentacaoServices>();
 
             //Repository//
             services.AddSingleton(typeof(IEntityRepository<>), typeof(EntityBaseRepository<>));
 
             //Entity
             services.AddScoped<ITipoMovimentacaoRepository, TipoMovimentacaoRepository>();
-
+            services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
 
             #endregion
         }
