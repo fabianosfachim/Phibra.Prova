@@ -1,6 +1,6 @@
 ﻿using Phibra.Prova.Domain.Entities;
 
-namespace Alsofer.FluxoCaixa.Domain.Model
+namespace Phibra.Prova.Domain.Model
 {
     public class MovimentacaoRequest
     {

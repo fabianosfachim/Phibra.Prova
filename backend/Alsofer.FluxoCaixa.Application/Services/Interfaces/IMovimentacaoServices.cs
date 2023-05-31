@@ -1,6 +1,4 @@
-﻿
-using Alsofer.FluxoCaixa.Domain.Model;
-using Phibra.Prova.Application.Services.Wrappers;
+﻿using Phibra.Prova.Application.Services.Wrappers;
 using Phibra.Prova.Domain.Model;
 
 namespace Phibra.Prova.Application.Services.Interfaces

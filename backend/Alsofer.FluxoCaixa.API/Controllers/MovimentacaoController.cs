@@ -1,7 +1,7 @@
-﻿using Alsofer.FluxoCaixa.Domain.Model;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Phibra.Prova.Application.Services.Interfaces;
+using Phibra.Prova.Domain.Model;
 
 namespace Phibra.Prova.API.Controllers
 {
@@ -66,7 +66,6 @@ namespace Phibra.Prova.API.Controllers
 
         [HttpPost]
         [Route("ExcluirMovimentacao")]
-        [Authorize]
         public async Task<IActionResult> ExcluirMovimentacao(int id)
         {
 

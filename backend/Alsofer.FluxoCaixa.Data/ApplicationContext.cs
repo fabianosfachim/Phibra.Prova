@@ -16,6 +16,7 @@ namespace Phibra.Prova.Data
 
         public DbSet<Movimentacao> Movimentacao { get; set; }
         public DbSet<TipoMovimentacao> TipoMovimentacao { get; set; }
-       
+        public DbSet<SaldoMovimentacao> SaldoMovimentacao { get; set; }
+
     }
 }
