@@ -1,12 +1,12 @@
 USE [bd_prova]
 GO
-/****** Object:  Table [dbo].[movimentacao]    Script Date: 5/31/2023 4:00:29 PM ******/
+/****** Object:  Table [dbo].[movimentacao]    Script Date: 5/31/2023 4:46:38 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[movimentacao](
-	[id] [bigint] NOT NULL,
+	[id] [int] IDENTITY(1,1) NOT NULL,
 	[id_movimentacao] [int] NOT NULL,
 	[dt_movimento] [datetime] NOT NULL,
 	[dt_lancamento] [datetime] NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE [dbo].[movimentacao](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tipomovimentacao]    Script Date: 5/31/2023 4:00:29 PM ******/
+/****** Object:  Table [dbo].[tipomovimentacao]    Script Date: 5/31/2023 4:46:38 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -32,11 +32,8 @@ CREATE TABLE [dbo].[tipomovimentacao](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-SET IDENTITY_INSERT [dbo].[tipomovimentacao] ON 
+ALTER TABLE [dbo].[movimentacao]  WITH CHECK ADD  CONSTRAINT [FK_movimentacao_tipomovimentacao] FOREIGN KEY([id_movimentacao])
+REFERENCES [dbo].[tipomovimentacao] ([id_movimentacao])
 GO
-INSERT [dbo].[tipomovimentacao] ([id_movimentacao], [tp_movimentacao], [desc_movimentacao]) VALUES (1, N'R', N'Receita')
-GO
-INSERT [dbo].[tipomovimentacao] ([id_movimentacao], [tp_movimentacao], [desc_movimentacao]) VALUES (2, N'D', N'Despesa')
-GO
-SET IDENTITY_INSERT [dbo].[tipomovimentacao] OFF
+ALTER TABLE [dbo].[movimentacao] CHECK CONSTRAINT [FK_movimentacao_tipomovimentacao]
 GO

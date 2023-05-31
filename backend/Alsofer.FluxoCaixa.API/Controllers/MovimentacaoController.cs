@@ -10,10 +10,13 @@ namespace Phibra.Prova.API.Controllers
     public class MovimentacaoController : ControllerBase
     {
         private readonly IMovimentacaoServices _movimentacaoServices;
+        private readonly ITipoMovimentacaoServices _tipoMovimentacaoServices;
 
-        public MovimentacaoController(IMovimentacaoServices movimentacaoServices)
+        public MovimentacaoController(IMovimentacaoServices movimentacaoServices, 
+                                      ITipoMovimentacaoServices tipoMovimentacaoServices)
         {
             _movimentacaoServices = movimentacaoServices;
+            _tipoMovimentacaoServices = tipoMovimentacaoServices;
         }
 
         [HttpGet]
@@ -52,7 +55,6 @@ namespace Phibra.Prova.API.Controllers
 
         [HttpPost]
         [Route("AtualizarMovimentacao")]
-        [Authorize]
         public async Task<IActionResult> AtualizarMovimentacao(MovimentacaoRequest movimentacaoRequest)
         {
 
@@ -69,6 +71,17 @@ namespace Phibra.Prova.API.Controllers
         {
 
             var response = await _movimentacaoServices.ExcluirMovimentacao(id);
+
+            return Ok(response);
+
+        }
+
+        [HttpGet]
+        [Route("ListarTipoMovimentacao")]
+        public async Task<IActionResult> ListarDespesa()
+        {
+
+            var response = await _tipoMovimentacaoServices.ListarTipoMovimentacao();
 
             return Ok(response);
 
