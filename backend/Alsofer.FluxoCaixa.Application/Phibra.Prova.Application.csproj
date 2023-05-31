@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Alsofer.FluxoCaixa.Data\Phibra.Prova.Data.csproj" />
+    <ProjectReference Include="..\Alsofer.FluxoCaixa.Domain\Phibra.Prova.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
