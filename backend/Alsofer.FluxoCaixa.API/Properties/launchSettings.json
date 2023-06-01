@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Alsofer.FluxoCaixa.API": {
+    "Phibra.Prova.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

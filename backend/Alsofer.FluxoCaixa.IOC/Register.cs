@@ -18,7 +18,7 @@ namespace Phibra.Prova.IOC
             //Services
             services.AddScoped<ITipoMovimentacaoServices, TipoMovimentacaoServices>();
             services.AddScoped<IMovimentacaoServices, MovimentacaoServices>();
-            //services.AddScoped<ISaldoMovimentacaoServices, SaldoMovimentacaoServices>();
+            services.AddScoped<ISaldoMovimentacaoServices, SaldoMovimentacaoServices>();
 
             //Repository//
             services.AddSingleton(typeof(IEntityRepository<>), typeof(EntityBaseRepository<>));
@@ -26,7 +26,7 @@ namespace Phibra.Prova.IOC
             //Entity
             services.AddScoped<ITipoMovimentacaoRepository, TipoMovimentacaoRepository>();
             services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
-          //  services.AddScoped<ISaldoMovimentacaoRepository, SaldoMovimentacaoRepository>();
+            services.AddScoped<ISaldoMovimentacaoRepository, SaldoMovimentacaoRepository>();
 
             #endregion
         }

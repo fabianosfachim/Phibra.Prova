@@ -1,20 +1,23 @@
 ﻿using Phibra.Prova.Application.Services.Interfaces;
 using Phibra.Prova.Application.Services.Wrappers;
+using Phibra.Prova.Data.Interfaces;
 using Phibra.Prova.Data.Repositories.Entities;
 using Phibra.Prova.Domain.Entities;
 using Phibra.Prova.Domain.Model;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Phibra.Prova.Application.Services
 {
     public class SaldoMovimentacaoServices : ISaldoMovimentacaoServices
     {
-        private readonly SaldoMovimentacaoRepository _saldoMovimentacaoRepository;
-        private readonly MovimentacaoServices _movimentacaoServices;
+        private readonly ISaldoMovimentacaoRepository _saldoMovimentacaoRepository;
+        private readonly IMovimentacaoServices _movimentacaoServices;
         private const int Receita = 1;
         private const int Despesa = 2;
 
-        public SaldoMovimentacaoServices(SaldoMovimentacaoRepository saldoMovimentacaoRepository, 
-                                         MovimentacaoServices movimentacaoServices)
+        public SaldoMovimentacaoServices(ISaldoMovimentacaoRepository saldoMovimentacaoRepository,
+                                         IMovimentacaoServices movimentacaoServices)
         {
             _saldoMovimentacaoRepository = saldoMovimentacaoRepository;
             _movimentacaoServices = movimentacaoServices;
@@ -30,7 +33,30 @@ namespace Phibra.Prova.Application.Services
 
                 if (listaTotalSaldoMovimentacao != null)
                 {
-                    saldoMovimentacaoResponse.saldoMovimentacao = listaTotalSaldoMovimentacao;
+                    var saldoMovimentacao = await SaldoMovimentacaoAsync();
+
+                    if (saldoMovimentacao == null)
+                    {
+                        listaTotalSaldoMovimentacao.dt_movimentacao = DateTime.Now;
+                        await AdicionarSaldoMovimentacaoAsync(listaTotalSaldoMovimentacao);
+                        saldoMovimentacaoResponse.saldoMovimentacao = listaTotalSaldoMovimentacao;
+                    }
+                    else
+                    {
+                        if (listaTotalSaldoMovimentacao.saldoTotal != saldoMovimentacao.saldoTotal)
+                        {
+                            //Adicionar um novo regitro na tabela
+                            SaldoMovimentacao saldo = new SaldoMovimentacao();
+                            saldo.dt_movimentacao = DateTime.Now;
+                            saldo.saldoReceita = listaTotalSaldoMovimentacao.saldoReceita;
+                            saldo.saldoDespesa = listaTotalSaldoMovimentacao.saldoDespesa;
+                            saldo.saldoTotal = listaTotalSaldoMovimentacao.saldoTotal;
+
+                            await AdicionarSaldoMovimentacaoAsync(saldo);
+                            saldoMovimentacaoResponse.saldoMovimentacao = listaTotalSaldoMovimentacao;
+                        }
+                    }
+
                     saldoMovimentacaoResponse.Executado = true;
                     saldoMovimentacaoResponse.MensagemRetorno = "Consulta de saldo movimentação efetuada com sucesso";
                 }
@@ -82,15 +108,7 @@ namespace Phibra.Prova.Application.Services
 
             try
             {
-                var saldo = await _saldoMovimentacaoRepository.GetAsync(x => x.dt_movimentacao >= DateTime.Parse(dataConsulta.ToString("yyyy-MM-dd HH:mm:ss")) && x.dt_movimentacao <= DateTime.Parse(dataConsulta.AddSeconds(-330).ToString("yyyy-MM-dd HH:mm:ss")));
-
-                if (saldo.Any())
-                {
-                    foreach(var item in saldo) 
-                    {
-                        saldoMovimentacao = item;
-                    }
-                }
+                saldoMovimentacao = _saldoMovimentacaoRepository.GetAllAsync().Result.ToList().LastOrDefault();
 
             }
             catch
@@ -101,7 +119,7 @@ namespace Phibra.Prova.Application.Services
             return saldoMovimentacao;
         }
 
-        private async void AdicionarSaldoMovimentacaoAsync(SaldoMovimentacaoRequest saldoMovimentacaoRequest)
+        private async Task AdicionarSaldoMovimentacaoAsync(SaldoMovimentacao saldoMovimentacaoRequest)
         {
             MovimentacaoResponse movimentacaoResponse = new MovimentacaoResponse();
             SaldoMovimentacao saldoMovimentacao = new SaldoMovimentacao();
@@ -109,8 +127,7 @@ namespace Phibra.Prova.Application.Services
 
             try
             {
-                await _saldoMovimentacaoRepository.AddAsync(saldoMovimentacaoRequest.saldoMovimentacao);
-                id = saldoMovimentacaoRequest.saldoMovimentacao.id;
+                await _saldoMovimentacaoRepository.AddAsync(saldoMovimentacaoRequest);
             }
             catch
             {
