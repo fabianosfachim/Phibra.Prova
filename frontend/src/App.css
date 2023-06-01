@@ -1,0 +1,12 @@
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+main {
+  height: calc(100vh - 133px);
+}
+
+.site-layout-content {
+  padding: 1rem;
+}

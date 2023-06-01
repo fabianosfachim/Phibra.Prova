@@ -1,6 +1,5 @@
 ﻿using Phibra.Prova.Application.Services.Interfaces;
 using Phibra.Prova.Application.Services.Wrappers;
-using Phibra.Prova.Data.Interfaces;
 using Phibra.Prova.Data.Repositories.Entities;
 using Phibra.Prova.Domain.Entities;
 using Phibra.Prova.Domain.Model;
